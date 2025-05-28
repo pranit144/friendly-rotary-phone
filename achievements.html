@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievements & Blog - Pranit Chilbule</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #010409;
+            --bg-card: #21262d;
+            --text-primary: #c9d1d9;
+            --text-secondary: rgba(201, 209, 217, 0.8);
+            --accent-blue: #58a6ff;
+            --accent-green: #10a37f;
+            --accent-gold: #ffd700;
+            --accent-silver: #c0c0c0;
+            --header-bg: rgba(0, 0, 0, 0.6);
+            --border-color: #30363d;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--header-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 2rem 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--accent-blue);
+            text-align: center;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+            border-radius: 2px;
+        }
+
+        /* Achievement Cards */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .achievement-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .achievement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(88, 166, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .achievement-card:hover::before {
+            left: 100%;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(88, 166, 255, 0.2);
+            border-color: var(--accent-blue);
+        }
+
+        .achievement-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .achievement-title {
+            color: var(--accent-blue);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .achievement-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .achievement-stats {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--accent-green);
+        }
+
+        .stat-item {
+            background: rgba(16, 163, 127, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            border: 1px solid rgba(16, 163, 127, 0.3);
+        }
+
+        /* Blog Section */
+        .blog-container {
+            overflow-x: auto;
+            padding: 2rem 0;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .blog-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .blog-grid {
+            display: flex;
+            gap: 2rem;
+            padding: 0.5rem;
+        }
+
+        .blog-card {
+            min-width: 350px;
+            max-width: 400px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent-blue);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .blog-content {
+            padding: 2rem;
+        }
+
+        .blog-date {
+            color: var(--accent-green);
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+
+        .blog-title {
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .blog-excerpt {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .blog-link {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .blog-link:hover {
+            color: var(--accent-green);
+            transform: translateX(5px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            padding: 3rem 2rem 2rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .footer-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in:nth-child(1) { animation-delay: 0.1s; }
+        .fade-in:nth-child(2) { animation-delay: 0.2s; }
+        .fade-in:nth-child(3) { animation-delay: 0.3s; }
+        .fade-in:nth-child(4) { animation-delay: 0.4s; }
+        .fade-in:nth-child(5) { animation-delay: 0.5s; }
+        .fade-in:nth-child(6) { animation-delay: 0.6s; }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            main {
+                padding: 100px 1rem 2rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .achievements-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .achievement-card {
+                padding: 1.5rem;
+            }
+
+            .blog-card {
+                min-width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">Pranit Chilbule</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="achievements.html">Achievements</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Achievements Section -->
+        <section id="achievements">
+            <h2 class="fade-in">Achievements</h2>
+            <div class="achievements-grid">
+                <div class="achievement-card fade-in">
+                    <div class="achievement-icon">🏆</div>
+                    <h3 class="achievement-title">3× Hackathon Winner</h3>
+                    <p class="achievement-description">First place victories at Cavista, Solvex, and Agri Tech hackathons, delivering innovative solutions across healthcare, agriculture, and engineering domains.</p>
+                    <div class="achievement-stats">
+                        <span class="stat-item">3 Wins</span>
+                        <span class="stat-item">Multiple Domains</span>
+                    </div>
+                </div>
+
+                <div class="achievement-card fade-in">
+                    <div class="achievement-icon">🥈</div>
+                    <h3 class="achievement-title">Runner-Up & Finalist</h3>
+                    <p class="achievement-description">Runner-up at Smart India Hackathon 2024 and Agri AI Hackathon 2025. Finalist at 8+ hackathons with 20+ total participations, consistently applying AI to solve real-world challenges.</p>
+                    <div class="achievement-stats">
+                        <span class="stat-item">2 Runner-ups</span>
+                        <span class="stat-item">8+ Finals</span>
+                        <span class="stat-item">20+ Participations</span>
+                    </div>
+                </div>
+
+                <div class="achievement-card fade-in">
+                    <div class="achievement-icon">📑</div>
+                    <h3 class="achievement-title">Research Publications</h3>
+                    <p class="achievement-description">Research papers presented at the Maitri Conference and ICCICN, with publications indexed in prestigious Scopus and Springer databases.</p>
+                    <div class="achievement-stats">
+                        <span class="stat-item">Scopus Indexed</span>
+                        <span class="stat-item">Springer</span>
+                    </div>
+                </div>
+
+                <div class="achievement-card fade-in">
+                    <div class="achievement-icon">🏅</div>
+                    <h3 class="achievement-title">Best Project Award</h3>
+                    <p class="achievement-description">Best Project Award for Plant Disease Detection System at college level, recognized for innovation among 120+ participants.</p>
+                    <div class="achievement-stats">
+                        <span class="stat-item">120+ Participants</span>
+                        <span class="stat-item">AI/ML Project</span>
+                    </div>
+                </div>
+
+                <div class="achievement-card fade-in">
+                    <div class="achievement-icon">👥</div>
+                    <h3 class="achievement-title">Innovsphere Club Founder</h3>
+                    <p class="achievement-description">Founded and serve as Tech Lead of Innovsphere Club, a community-driven technology club fostering collaboration among students and industry professionals.</p>
+                    <div class="achievement-stats">
+                        <span class="stat-item">Founder</span>
+                        <span class="stat-item">Tech Lead</span>
+                    </div>
+                </div>
+
+                <div class="achievement-card fade-in">
+                    <div class="achievement-icon">🌟</div>
+                    <h3 class="achievement-title">Continuous Contributor</h3>
+                    <p class="achievement-description">Actively contributing to data science and AI through open-source projects, technical blog posts, and ongoing academic and industry collaborations.</p>
+                    <div class="achievement-stats">
+                        <span class="stat-item">Open Source</span>
+                        <span class="stat-item">Tech Blogs</span>
+                        <span class="stat-item">Collaborations</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog">
+            <h2 class="fade-in">Technical Blog</h2>
+            <div class="blog-container">
+                <div class="blog-grid">
+                    <!-- Blog Post 1 -->
+                    <article class="blog-card fade-in">
+                        <div class="blog-image">🧠</div>
+                        <div class="blog-content">
+                            <div class="blog-date">December 15, 2024</div>
+                            <h3 class="blog-title">Implementing GANs for Audio Generation</h3>
+                            <p class="blog-excerpt">Exploring the architecture and implementation of Generative Adversarial Networks for creating realistic audio samples with deep learning techniques.</p>
+                            <a href="#" class="blog-link">
+                                Read More
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Blog Post 2 -->
+                    <article class="blog-card fade-in">
+                        <div class="blog-image">🌱</div>
+                        <div class="blog-content">
+                            <div class="blog-date">November 28, 2024</div>
+                            <h3 class="blog-title">AI in Agriculture: Plant Disease Detection</h3>
+                            <p class="blog-excerpt">Deep dive into computer vision techniques for early detection of plant diseases, featuring CNN architectures and real-world deployment strategies.</p>
+                            <a href="#" class="blog-link">
+                                Read More
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Blog Post 3 -->
+                    <article class="blog-card fade-in">
+                        <div class="blog-image">⚡</div>
+                        <div class="blog-content">
+                            <div class="blog-date">October 10, 2024</div>
+                            <h3 class="blog-title">Building Scalable ML Pipelines</h3>
+                            <p class="blog-excerpt">Best practices for designing and implementing machine learning pipelines that can handle production workloads with MLOps principles.</p>
+                            <a href="#" class="blog-link">
+                                Read More
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Blog Post 4 -->
+                    <article class="blog-card fade-in">
+                        <div class="blog-image">🔬</div>
+                        <div class="blog-content">
+                            <div class="blog-date">September 22, 2024</div>
+                            <h3 class="blog-title">Research Paper Insights: AI Ethics</h3>
+                            <p class="blog-excerpt">Key findings from recent research publications on ethical AI development and responsible machine learning practices in industry applications.</p>
+                            <a href="#" class="blog-link">
+                                Read More
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#" aria-label="LinkedIn">📧</a>
+                <a href="#" aria-label="GitHub">💻</a>
+                <a href="#" aria-label="Twitter">🐦</a>
+                <a href="#" aria-label="Medium">📝</a>
+            </div>
+            <p class="footer-text">© 2024 Pranit Chilbule. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with fade-in class
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add click effects to achievement cards
+        document.querySelectorAll('.achievement-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Header background on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0, 0, 0, 0.9)';
+            } else {
+                header.style.background = 'rgba(0, 0, 0, 0.6)';
+            }
+        });
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>

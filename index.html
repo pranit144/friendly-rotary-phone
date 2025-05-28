@@ -1,19 +1,1076 @@
-<!doctype html>
-<html>
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>My static Space</title>
-		<link rel="stylesheet" href="style.css" />
-	</head>
-	<body>
-		<div class="card">
-			<h1>Welcome to your static Space!</h1>
-			<p>You can modify this app directly by editing <i>index.html</i> in the Files and versions tab.</p>
-			<p>
-				Also don't forget to check the
-				<a href="https://huggingface.co/docs/hub/spaces" target="_blank">Spaces documentation</a>.
-			</p>
-		</div>
-	</body>
-</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pranit Chilbule - AI/ML Engineer & MERN Developer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #010409;
+            --text-primary: #c9d1d9;
+            --text-secondary: rgba(201, 209, 217, 0.8);
+            --accent-blue: #58a6ff;
+            --accent-green: #10a37f;
+            --header-bg: rgba(0, 0, 0, 0.6);
+            --border-color: rgba(201, 209, 217, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Three.js Canvas */
+        #three-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 2rem;
+            background: var(--header-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .logo:hover {
+            color: var(--accent-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-blue);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Main Hero Section */
+        main {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding-top: 80px; /* Added to account for fixed header */
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content h1 {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 4rem;
+            font-weight: 700;
+            white-space: nowrap; /* Keeps name in one line */
+            margin-left: 0; /* Removed left margin */
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(88, 166, 255, 0.5);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(88, 166, 255, 0.8);
+            }
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent-green);
+            border: 2px solid var(--accent-green);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-green);
+            color: white;
+            box-shadow: 0 0 20px rgba(16, 163, 127, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* About Section */
+        #about {
+            padding: 4rem 2rem;
+            background: rgba(13, 17, 23, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            margin: 2rem auto;
+            max-width: 1200px;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .profile-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-image img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 4px solid var(--accent-blue);
+            box-shadow: 0 10px 30px rgba(88, 166, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-image img:hover {
+            transform: scale(1.05);
+        }
+
+        .about-content {
+            max-width: 600px;
+        }
+
+        .about-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .about-content h2::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--accent-blue);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .about-content h2:hover::after {
+            transform: scaleX(1);
+        }
+
+        .quick-info {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Journey Sliders */
+        .journey-sliders {
+            padding: 4rem 2rem;
+            overflow: hidden;
+            background: rgba(13, 17, 23, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            margin: 2rem auto;
+            max-width: 1400px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slider-container {
+            position: relative;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .slider-track {
+            display: flex;
+            width: calc(250px * 18);
+            animation: scroll 40s linear infinite;
+        }
+
+        .slider-track.reverse {
+            animation-direction: reverse;
+        }
+
+        .slider-item {
+            width: 250px;
+            height: 180px;
+            padding: 0 15px;
+            flex-shrink: 0;
+        }
+
+        .slider-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid var(--accent-blue);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .slider-item img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.3);
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(-250px * 9));
+            }
+        }
+
+        .slider-container::before,
+        .slider-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 200px;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .slider-container::before {
+            left: 0;
+            background: linear-gradient(to right, var(--bg-primary), transparent);
+        }
+
+        .slider-container::after {
+            right: 0;
+            background: linear-gradient(to left, var(--bg-primary), transparent);
+        }
+
+        /* Footer */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 2rem;
+            background: var(--bg-secondary);
+            z-index: 100;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 0.5rem;
+        }
+
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-secondary);
+            transition: fill 0.3s ease;
+            cursor: pointer;
+        }
+
+        .social-icon:hover {
+            fill: var(--accent-green);
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        /* Update the header styles */
+        .header-profile-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-left: 1rem;
+            border: 2px solid var(--accent-blue);
+            object-fit: cover;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-blue);
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .header-profile-img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(88, 166, 255, 0.4);
+        }
+
+        /* Add to your existing styles */
+        .profile-container {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Changed to center */
+            margin-bottom: 2rem;
+            padding: 0 2rem;
+            gap: 6rem;
+            width: 100%; /* Added to ensure full width */
+        }
+
+        .profile-wrapper {
+            position: relative;
+            width: 300px;  /* Increased width */
+            height: 300px; /* Increased height */
+            border-radius: 10px; /* Changed from 50% to 10px for slight rounding */
+            overflow: hidden;
+            border: 3px solid var(--accent-blue);
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.3);
+            animation: float 6s ease-in-out infinite;
+            background: var(--bg-primary);
+        }
+
+        .profile-img {
+            width: 450px; /* Increased size */
+            height: 450px; /* Increased size */
+            object-fit: contain;
+            transform: scale(1);
+            transition: all 0.3s ease;
+            border: 4px solid var(--accent-blue); /* Added bright border */
+            box-shadow: 0 0 30px rgba(88, 166, 255, 0.5); /* Added glow effect */
+            border-radius: 15px; /* Optional: slight rounded corners */
+            padding: 10px;
+            background: rgba(13, 17, 23, 0.8); /* Semi-transparent background */
+        }
+
+        .profile-img:hover {
+            transform: scale(1.02);
+            border-color: var(--accent-green); /* Color change on hover */
+            box-shadow: 0 0 40px rgba(16, 163, 127, 0.6); /* Enhanced glow on hover */
+        }
+
+        .ai-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .scanning-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+            animation: scan 2s linear infinite;
+        }
+
+        .ai-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 30%, rgba(88, 166, 255, 0.1));
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scan {
+            0% {
+                top: 0;
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+
+            .profile-container {
+                gap: 4rem;
+            }
+            
+            .hero-content h1 {
+                margin-left: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--header-bg);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 1rem 0;
+                gap: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 200px;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .journey-sliders {
+                padding: 2rem 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .slider-item {
+                width: 200px;
+                height: 150px;
+            }
+
+            .logo-container {
+                gap: 0.5rem;
+            }
+
+            .header-profile-img {
+                width: 32px;
+                height: 32px;
+            }
+
+            .profile-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 2rem;
+            }
+            
+            .hero-content h1 {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            main {
+                padding: 0 1rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+                letter-spacing: 0.5px;
+            }
+
+            header {
+                padding: 0.75rem 1rem;
+            }
+
+            footer {
+                padding: 0.75rem 1rem;
+            }
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading animation */
+        .loading {
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* AI Particles */
+        .ai-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .ai-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Three.js Canvas -->
+    <canvas id="three-canvas"></canvas>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo-container">
+                <a href="index.html" class="logo">Pranit Chilbule</a>
+                <img src="images/0_rOIc88HfNzBtAhru.gif" alt="Profile" class="header-profile-img">
+            </div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-home">Home</a></li>
+                <li><a href="about.html" class="nav-about">About</a></li>
+                <li><a href="projects.html" class="nav-projects">Projects</a></li>
+                <li><a href="achievements.html" class="nav-achievements">Achievements</a></li>
+                <li><a href="contact.html" class="nav-contact">Contact</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Hero Section -->
+    <main id="home">
+        <div class="hero-content loading">
+            <div class="profile-container">
+                <h1>Pranit Chilbule</h1>
+                <img src="images/0_rOIc88HfNzBtAhru.gif" alt="Profile" class="profile-img">
+            </div>
+            <p>AI/ML Engineer | MERN Developer | Tech Enthusiast</p>
+            <div class="cta-buttons">
+                <a href="#about" class="btn btn-primary">Learn More</a>
+                <a href="projects.html" class="btn btn-secondary">View Projects</a>
+            </div>
+        </div>
+    </main>
+
+  
+    <!-- Journey Sliders Section -->
+    <section class="journey-sliders fade-in">
+        <h2 class="section-title">My Journey</h2>
+        
+        <!-- First Slider - Moving Left -->
+        <div class="slider-container">
+            <div class="slider-track">
+                <!-- First set of images -->
+                <div class="slider-item"><img src="images/1 (1).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (2).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (3).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (4).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (5).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (6).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (7).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (8).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (9).jpg" alt="Journey moment"></div>
+                <!-- Duplicate for seamless loop -->
+                <div class="slider-item"><img src="images/1 (1).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (2).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (3).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (4).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (5).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (6).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (7).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (8).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (9).jpg" alt="Journey moment"></div>
+            </div>
+        </div>
+
+        <!-- Second Slider - Moving Right -->
+        <div class="slider-container">
+            <div class="slider-track reverse">
+                <!-- Second set of images -->
+                <div class="slider-item"><img src="images/1 (10).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (11).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (12).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (13).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (14).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (15).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (16).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (17).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (18).jpg" alt="Journey moment"></div>
+                <!-- Duplicate for seamless loop -->
+                <div class="slider-item"><img src="images/1 (10).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (11).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (12).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (13).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (14).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (15).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (16).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (17).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (18).jpg" alt="Journey moment"></div>
+            </div>
+        </div>
+
+        <!-- Third Slider - Moving Left -->
+        <div class="slider-container">
+            <div class="slider-track">
+                <!-- Third set of images -->
+                <div class="slider-item"><img src="images/1 (19).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (20).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (21).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (22).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (23).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (24).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (25).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (26).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (27).jpg" alt="Journey moment"></div>
+                <!-- Duplicate for seamless loop -->
+                <div class="slider-item"><img src="images/1 (19).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (20).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (21).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (22).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (23).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (24).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (25).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (26).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (27).jpg" alt="Journey moment"></div>
+            </div>
+        </div>
+
+        <!-- Fourth Slider - Moving Right -->
+        <div class="slider-container">
+            <div class="slider-track reverse">
+                <!-- Fourth set of images -->
+                <div class="slider-item"><img src="images/1 (28).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (29).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (30).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (31).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (32).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (33).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (34).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (35).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (36).jpg" alt="Journey moment"></div>
+                <!-- Duplicate for seamless loop -->
+                <div class="slider-item"><img src="images/1 (28).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (29).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (30).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (31).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (32).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (33).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (34).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (35).jpg" alt="Journey moment"></div>
+                <div class="slider-item"><img src="images/1 (36).jpg" alt="Journey moment"></div>
+            </div>
+        </div>
+    </section>
+  <!-- About Section -->
+    <section id="about" class="fade-in">
+        <div class="about-grid">
+            <div class="profile-image">
+    <img src="images/121415604.jpeg" alt="Pranit Chilbule Profile Picture">
+</div>
+
+            <div class="about-content">
+                <h2>About Me</h2>
+                <p>
+                    I'm a 3rd-year AI/ML engineering student at VIT Pune, passionate about building intelligent systems that solve real-world problems. My journey in technology spans from developing cutting-edge machine learning models to creating robust web applications using the MERN stack.
+                </p>
+                <div class="quick-info">
+                    <div class="info-item">
+                        <span class="info-icon">🎓</span>
+                        <span>AI/ML Engineer</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">💻</span>
+                        <span>MERN Developer</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">🚀</span>
+                        <span>Tech Enthusiast</span>
+                    </div>
+                </div>
+                <div class="cta-buttons">
+                    <a href="about.html" class="btn btn-primary">Full Bio</a>
+                    <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <a href="www.linkedin.com/in/pranit-chilbule-03ba7b1b5" target="_blank">
+                <svg class="social-icon" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+            </a>
+            <a href="https://github.com/pranit144" target="_blank">
+                <svg class="social-icon" viewBox="0 0 24 24">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+            </a>
+            <a href="/blog.html" target="_blank">
+                <svg class="social-icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Three.js Particle Network Background
+        let scene, camera, renderer, particles, lines;
+        let particleCount = 100;
+        let mouseX = 0, mouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
+
+        function initThreeJS() {
+            const canvas = document.getElementById('three-canvas');
+            
+            // Scene setup
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 0);
+
+            // Create particles
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            const velocities = [];
+
+            for (let i = 0; i < particleCount; i++) {
+                positions[i * 3] = (Math.random() - 0.5) * 2000;
+                positions[i * 3 + 1] = (Math.random() - 0.5) * 2000;
+                positions[i * 3 + 2] = (Math.random() - 0.5) * 2000;
+
+                velocities.push({
+                    x: (Math.random() - 0.5) * 2,
+                    y: (Math.random() - 0.5) * 2,
+                    z: (Math.random() - 0.5) * 2
+                });
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+            const material = new THREE.PointsMaterial({
+                color: 0x58a6ff,
+                size: 2,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            particles = new THREE.Points(geometry, material);
+            particles.userData = { velocities: velocities };
+            scene.add(particles);
+
+            // Create lines
+            const lineGeometry = new THREE.BufferGeometry();
+            const lineMaterial = new THREE.LineBasicMaterial({
+                color: 0x58a6ff,
+                transparent: true,
+                opacity: 0.3
+            });
+
+            lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+            scene.add(lines);
+
+            camera.position.z = 1000;
+
+            // Start animation
+            animate();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Update particles positions
+            const positions = particles.geometry.attributes.position.array;
+            const velocities = particles.userData.velocities;
+
+            for (let i = 0; i < particleCount; i++) {
+                positions[i * 3] += velocities[i].x;
+                positions[i * 3 + 1] += velocities[i].y;
+                positions[i * 3 + 2] += velocities[i].z;
+
+                // Boundary check
+                if (positions[i * 3] > 1000 || positions[i * 3] < -1000) velocities[i].x *= -1;
+                if (positions[i * 3 + 1] > 1000 || positions[i * 3 + 1] < -1000) velocities[i].y *= -1;
+                if (positions[i * 3 + 2] > 1000 || positions[i * 3 + 2] < -1000) velocities[i].z *= -1;
+            }
+
+            particles.geometry.attributes.position.needsUpdate = true;
+
+            // Update lines between close particles
+            updateLines();
+
+            // Camera movement based on mouse
+            camera.position.x += (mouseX - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+        }
+
+        function updateLines() {
+            const positions = particles.geometry.attributes.position.array;
+            const linePositions = [];
+
+            for (let i = 0; i < particleCount; i++) {
+                for (let j = i + 1; j < particleCount; j++) {
+                    const dx = positions[i * 3] - positions[j * 3];
+                    const dy = positions[i * 3 + 1] - positions[j * 3 + 1];
+                    const dz = positions[i * 3 + 2] - positions[j * 3 + 2];
+                    const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+                    if (distance < 120) {.style.display = 'block';
+                        linePositions.push(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
+                        linePositions.push(positions[j * 3], positions[j * 3 + 1], positions[j * 3 + 2]);
+                    }
+                }
+            }
+nks = document.getElementById('navLinks');
+            lines.geometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));nks.classList.toggle('active');
+        }
+
+        // Mouse movement tracking        // Smooth scroll for internal links
+        document.addEventListener('mousemove', (event) => {]').forEach(anchor => {
+            mouseX = event.clientX - windowHalfX;nction (e) {
+            mouseY = event.clientY - windowHalfY;efault();
+        });    const target = document.querySelector(this.getAttribute('href'));
+
+        // Window resize handlerollIntoView({
+        window.addEventListener('resize', () => {
+            windowHalfX = window.innerWidth / 2;    block: 'start'
+            windowHalfY = window.innerHeight / 2;         });
+                }
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+ge loads
+            // Pause animation on mobile
+            if (window.innerWidth < 600) {eJS();
+                renderer.domElement.style.display = 'none';
+            anchor.addEventListener('click', function (e) {/ Show content with animation
+                e.preventDefault(); setTimeout(() => {
+                const target = document.querySelector(this.getAttribute('href'));   document.querySelector('.hero-content').classList.remove('loading');
+                if (target) {     }, 100);
+                    target.scrollIntoView({ });
