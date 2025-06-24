@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact - Pranit Chilbule</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
     <style>
         /* Import existing theme variables */
         :root {
@@ -76,10 +74,10 @@
 
         /* Main container */
         .main-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            display: flex;
+            flex-direction: column;
             gap: 2rem;
-            max-width: 1400px;
+            max-width: 1000px;
             margin: 120px auto 4rem;
             padding: 0 2rem;
         }
@@ -304,7 +302,6 @@
         /* Responsive design */
         @media (max-width: 768px) {
             .main-container {
-                grid-template-columns: 1fr;
                 margin-top: 100px;
                 padding: 0 1rem;
             }
@@ -324,19 +321,19 @@
     <header>
         <nav>
             <div class="logo">Pranit Chilbule</div>
-            <ul class="nav-links" id="navLinks">
-    <li><a href="index.html"><i class="fas fa-house"></i> Home</a></li>
-    <li><a href="about.html"><i class="fas fa-user"></i> About</a></li>
-    <li><a href="projects.html"><i class="fas fa-code"></i> Projects</a></li>
-    <li><a href="achievements.html"><i class="fas fa-trophy"></i> Achievements</a></li>
-    <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
-  </ul>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="achievements.html">Achievements</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
         </nav>
     </header>
 
     <main class="main-container">
-        <!-- Contact Form Section -->
-      <section class="resume-section fade-in">
+        <!-- Resume Display Section -->
+        <section class="resume-section fade-in">
             <div class="resume-header">
                 <h2 class="section-title" style="margin: 0;">My Resume</h2>
                 <div class="view-toggle">
@@ -364,6 +361,8 @@
                 </div>
             </div>
         </section>
+
+        <!-- Contact Form Section -->
         <section class="contact-section fade-in">
             <h2 class="section-title">Get In Touch</h2>
             
@@ -422,9 +421,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- Resume Display Section -->
-        
     </main>
 
     <script>
