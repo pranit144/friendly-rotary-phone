@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact - Pranit Chilbule</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
         /* Import existing theme variables */
         :root {
@@ -322,18 +324,46 @@
     <header>
         <nav>
             <div class="logo">Pranit Chilbule</div>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="projects.html">Projects</a></li>
-                <li><a href="achievements.html">Achievements</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
+            <ul class="nav-links" id="navLinks">
+    <li><a href="index.html"><i class="fas fa-house"></i> Home</a></li>
+    <li><a href="about.html"><i class="fas fa-user"></i> About</a></li>
+    <li><a href="projects.html"><i class="fas fa-code"></i> Projects</a></li>
+    <li><a href="achievements.html"><i class="fas fa-trophy"></i> Achievements</a></li>
+    <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+  </ul>
         </nav>
     </header>
 
     <main class="main-container">
         <!-- Contact Form Section -->
+      <section class="resume-section fade-in">
+            <div class="resume-header">
+                <h2 class="section-title" style="margin: 0;">My Resume</h2>
+                <div class="view-toggle">
+                    <button class="toggle-btn active" onclick="toggleView('embed')">Embedded</button>
+                    <button class="toggle-btn" onclick="toggleView('link')">Link</button>
+                </div>
+            </div>
+            
+            <div id="embedView">
+                <iframe 
+                    src="https://drive.google.com/file/d/1PTP4E5yEt6YSQ_E5fKlNicweDAP0RRAM/preview" 
+                    class="resume-viewer"
+                    allow="autoplay">
+                </iframe>
+            </div>
+            
+            <div id="linkView" style="display: none;">
+                <div class="resume-placeholder">
+                    <h3>Resume Link Access</h3>
+                    <p>Click the button below to view my resume in a new tab:</p>
+                    <a href="https://drive.google.com/file/d/1PTP4E5yEt6YSQ_E5fKlNicweDAP0RRAM/view?usp=drive_link" 
+                       target="_blank" class="resume-btn" style="display: inline-block; margin-top: 1rem;">
+                        Open Resume in New Tab
+                    </a>
+                </div>
+            </div>
+        </section>
         <section class="contact-section fade-in">
             <h2 class="section-title">Get In Touch</h2>
             
@@ -394,34 +424,7 @@
         </section>
 
         <!-- Resume Display Section -->
-        <section class="resume-section fade-in">
-            <div class="resume-header">
-                <h2 class="section-title" style="margin: 0;">My Resume</h2>
-                <div class="view-toggle">
-                    <button class="toggle-btn active" onclick="toggleView('embed')">Embedded</button>
-                    <button class="toggle-btn" onclick="toggleView('link')">Link</button>
-                </div>
-            </div>
-            
-            <div id="embedView">
-                <iframe 
-                    src="https://drive.google.com/file/d/1PTP4E5yEt6YSQ_E5fKlNicweDAP0RRAM/preview" 
-                    class="resume-viewer"
-                    allow="autoplay">
-                </iframe>
-            </div>
-            
-            <div id="linkView" style="display: none;">
-                <div class="resume-placeholder">
-                    <h3>Resume Link Access</h3>
-                    <p>Click the button below to view my resume in a new tab:</p>
-                    <a href="https://drive.google.com/file/d/1PTP4E5yEt6YSQ_E5fKlNicweDAP0RRAM/view?usp=drive_link" 
-                       target="_blank" class="resume-btn" style="display: inline-block; margin-top: 1rem;">
-                        Open Resume in New Tab
-                    </a>
-                </div>
-            </div>
-        </section>
+        
     </main>
 
     <script>
